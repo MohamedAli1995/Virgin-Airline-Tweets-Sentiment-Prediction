@@ -12,7 +12,6 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Config file](#config-file)
 - [How to train](#Model-training)
 - [How to test](#Model-testing)
--
 - [Implementation details](#Implementation-details)
      - [Sentiment model architecture](#Sentiment-model-arch)
 
