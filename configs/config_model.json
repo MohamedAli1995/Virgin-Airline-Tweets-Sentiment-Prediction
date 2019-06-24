@@ -8,9 +8,9 @@
   "max_to_keep":1,
   "labels_dict":{"positive":0, "neutral":1, "negative":2},
   "tokenizer_pickle_path":"",
-  "train_data_path":"/content/Virgin-Airline-Tweets-Sentiment-Prediction/data/Tweets.csv",
-  "summary_dir":"/content/Virgin-Airline-Tweets-Sentiment-Prediction/saved_models/summary/",
-  "checkpoint_dir":"/content/Virgin-Airline-Tweets-Sentiment-Prediction/saved_models/checkpoint/"
+  "train_data_path":"/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/data/Tweets.csv",
+  "summary_dir":"/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/saved_models/summary/",
+  "checkpoint_dir":"/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/saved_models/checkpoint/"
 
 }
 
