@@ -11,6 +11,11 @@ def get_args():
         metavar='c',
         help='Config file path')
 
+    argparse.add_argument(
+        '-i', '--input_text',
+        metavar='i',
+        help='input text')
+
     args = argparse.parse_args()
     return args
 
