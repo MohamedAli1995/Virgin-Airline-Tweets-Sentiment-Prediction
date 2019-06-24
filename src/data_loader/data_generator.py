@@ -7,7 +7,7 @@ import pandas as pd
 
 
 class DataGenerator:
-    """DataGenerator class responsible for dealing with cifar-100 dataset.
+    """DataGenerator class responsible for dealing dataset with .
 
     Attributes:
         config: Config object to store data related to training, testing and validation.
@@ -18,7 +18,6 @@ class DataGenerator:
         y_train: Contains training set target output.
         x_val: Contains validation set inputs.
         y_val: Contains validation set target output.
-        meta: Contains meta-data about Cifar-100 dataset(including label names).
     """
 
     def __init__(self, config, training=True, data_split_seed=64):

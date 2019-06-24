@@ -12,21 +12,17 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Config file](#config-file)
 - [How to train](#Model-training)
 - [How to test](#Model-testing)
-- [How to predict class of images using pretrained models](#Make-predictions-with-pretrained-models)
+-
 - [Implementation details](#Implementation-details)
-     - [TinyVGG architecture](#TinyVGG-model-arch)
-     - [TinyVGG training](#TinyVGG-training)
-     - [TinyVGG testing](#TinyVGG-testing)
-
-
+     - [Sentiment model architecture](#Sentiment-model-arch)
 
 # Project structure
 --------------
 
 ```
-├── Configs            
+├── Configs
 │   └── config_model.json  - Contains the paths used and config of the models(learning_rate, num_epochs, ...)
-│     
+│ 
 ├──  base
 │   ├── base_model.py   - This file contains the abstract class of all models used.
 │   ├── base_train.py   - This file contains the abstract class of the trainer of all models used.
@@ -143,15 +139,15 @@ python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
  I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
  Acheived val accuracy of 80<br>
  and training accuracy of 50% (with enabling dropout)<br>
- <img src="https://github.com/MohamedAli1995/Cifar-100-Classifier/blob/master/src/models/train_accuracy.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
 and loss <br>
- <img src="https://github.com/MohamedAli1995/Cifar-100-Classifier/blob/master/src/models/loss.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-   Acheived testing accuracy of 52% on the cifar-100 test set 
+   Acheived testing accuracy of 8
 
 

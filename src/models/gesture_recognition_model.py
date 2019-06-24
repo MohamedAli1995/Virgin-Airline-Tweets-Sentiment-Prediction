@@ -55,10 +55,8 @@ class GestureRecognitionModel(BaseModel):
         b = self.__init_bias([size])
         return tf.matmul(input_layer, W) + b
 
-
     def __batch_norm(self, input_layer):
         return tf.contrib.layers.batch_norm(input_layer, activation_fn=tf.nn.leaky_relu, is_training=self.is_training)
-
 
     def build_model(self):
         self.is_training = tf.placeholder(tf.bool)
