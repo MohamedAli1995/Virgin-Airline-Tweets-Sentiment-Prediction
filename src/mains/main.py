@@ -14,7 +14,8 @@ def main():
     config = None
     try:
         args = get_args()
-        config = processing_config(args.config)
+
+        config = processing_config("/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/configs/config_model.json")
         # config = processing_config(
         #     "/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/configs/config_model.json")
     except:
