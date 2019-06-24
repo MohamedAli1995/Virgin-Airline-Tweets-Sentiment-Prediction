@@ -6,7 +6,6 @@
 
   "max_n_words":3000,
   "max_to_keep":1,
-  "per_process_gpu_memory_fraction":1,
   "labels_dict":{"positive":0, "neutral":1, "negative":2},
   "tokenizer_pickle_path":"",
   "train_data_path":"/content/Virgin-Airline-Tweets-Sentiment-Prediction/data/Tweets.csv",

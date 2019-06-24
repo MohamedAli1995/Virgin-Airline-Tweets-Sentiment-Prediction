@@ -22,8 +22,6 @@ def main():
         print("Missing or invalid arguments")
         exit(0)
 
-    tf_config = tf.ConfigProto()
-    tf_config.gpu_options.per_process_gpu_memory_fraction = config.per_process_gpu_memory_fraction
     sess = tf.Session()
     logger = Logger(sess, config)
     model = GestureRecognitionModel(config)
