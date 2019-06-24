@@ -75,6 +75,11 @@ Pretrained models can be found at saved_models/checkpoint
 pip3 install numpy
 ```
 
+* Bunch
+```
+pip3 install bunch
+```
+
 * Pandas
 ```
 pip3 install pandas

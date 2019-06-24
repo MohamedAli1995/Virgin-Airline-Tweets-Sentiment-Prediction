@@ -11,15 +11,6 @@ def get_args():
         metavar='c',
         help='Config file path')
 
-    argparse.add_argument(
-        '-i', '--img_path',
-        metavar='i',
-        help='image path')
-
-    argparse.add_argument(
-        '-t', '--test_path',
-        metavar='t',
-        help='test images path')
     args = argparse.parse_args()
     return args
 
