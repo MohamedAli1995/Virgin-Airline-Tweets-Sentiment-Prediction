@@ -161,7 +161,7 @@ First we convert the dataset to lowercase, since the context is case independent
 df['text'] = df['text'].apply(lambda x: x.lower())
 ```
 ### Don't remove stop words
-Even if stop words is incredibly frequent, removin stop words can affect the context, we won't remove it <br>
+Even if stop words are incredibly frequent, removin stop words can affect the context, we won't remove it <br>
 ### Removing symbols
 As we are analyzing tweets, we have a lot of symbols to remove, more important, we should eliminate words starts with @, for example @mohamed_ali should be eliminated not only the symbol @<br>
 ```
