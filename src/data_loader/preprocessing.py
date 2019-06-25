@@ -3,7 +3,8 @@ import pandas as pd
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import re
-
+from src.utils.dirs import create_dirs
+import pickle
 
 def preprocess_text(path):
     df = pd.read_csv(path)
@@ -18,13 +19,32 @@ def preprocess_text(path):
     return df
 
 
-def text_to_seq(values, max_features, tokenizer_pickle_path=None):
-    if tokenizer_pickle_path == None:
+def text_to_seq(values,  tokenizer_pickle_path, max_features=2000, create_tokenizer=True):
+    if create_tokenizer:
+        create_dirs([tokenizer_pickle_path])
+
         tokenizer = Tokenizer(num_words=max_features, split=' ')
         tokenizer.fit_on_texts(values)
+
         x = tokenizer.texts_to_sequences(values)
-        x = pad_sequences(x)
+        x = pad_sequences(x, maxlen=30)
+
+        # saving
+        with open(tokenizer_pickle_path+'tokenizer.pickle', 'wb') as handle:
+            pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
         return x
+    else:
+        # loading
+        with open(tokenizer_pickle_path + 'tokenizer.pickle', 'rb') as handle:
+            tokenizer = pickle.load(handle)
+            x = tokenizer.texts_to_sequences(values)
+            x = pad_sequences(x, maxlen=30)
+            return x
+
+
+
+
+
 
 
 def one_hot_encoding(labels, num_classes, dict):

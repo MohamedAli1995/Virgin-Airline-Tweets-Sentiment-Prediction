@@ -56,7 +56,10 @@ class DataGenerator:
 
         processed_df = preprocess_text(self.config.train_data_path)
 
-        self.x_all_data = text_to_seq(processed_df['text'].values, max_features=self.config.max_n_words)
+        self.x_all_data = text_to_seq(processed_df['text'].values, create_tokenizer=True,
+                                      max_features=self.config.max_n_words,
+                                      tokenizer_pickle_path=self.config.tokenizer_pickle_path)
+
         self.y_all_data = one_hot_encoding(processed_df['airline_sentiment'].values, 3, dict=self.config.labels_dict)
 
         indices_list = [i for i in range(self.x_all_data.shape[0])]
@@ -100,12 +103,11 @@ class DataGenerator:
         self.x_val = self.x_val[indices_list]
         self.y_val = self.y_val[indices_list]
 
-
     def load_test_set(self, test_set):
-        self.x_test = np.asanyarray(test_set)
+        self.x_test = text_to_seq(test_set, create_tokenizer=False,
+                                  tokenizer_pickle_path=self.config.tokenizer_pickle_path)
         self.all_test = self.x_test
         self.num_batches_test = int(np.ceil(self.x_test.shape[0] / self.config.batch_size))
-
 
     def prepare_new_epoch_data(self):
         """Prepares the dataset for a new epoch by setting the indx of the batches to 0 and shuffling

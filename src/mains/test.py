@@ -33,7 +33,7 @@ max_fatures = 2500
 tokenizer = Tokenizer(num_words=max_fatures, split=' ')
 tokenizer.fit_on_texts(df['text'].values)
 X = tokenizer.texts_to_sequences(df['text'].values)
-X = pad_sequences(X)
+X = pad_sequences(X, maxlen=30)
 print(X)
 print(X.shape)
 #

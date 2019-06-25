@@ -27,7 +27,7 @@ def unpickle(file):
 
 
 def print_predictions( predictions):
-    labels = ["positive, neutral, negative"]
+    labels = ["positive", "neutral", "negative"]
     print("Predictions:\n")
     for i in range(predictions.shape[0]):
 

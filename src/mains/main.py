@@ -1,8 +1,8 @@
 import tensorflow as tf
 from src.data_loader.data_generator import DataGenerator
-from src.models.gesture_recognition_model import GestureRecognitionModel
-from src.trainers.gesture_recognition_trainer import GestureRecognitionTrainer
-from src.testers.gesture_recognition_tester import GestureRecognitionTester
+from src.models.sentiment_model import SentimentModel
+from src.trainers.sentiment_trainer import SentimentTrainer
+from src.testers.sentiment_tester import SentimentTester
 from src.utils.config import processing_config
 from src.utils.logger import Logger
 from src.utils.utils import get_args
@@ -24,24 +24,22 @@ def main():
 
     sess = tf.Session()
     logger = Logger(sess, config)
-    model = GestureRecognitionModel(config)
+    model = SentimentModel(config)
     model.load(sess)
 
     if args.input_text is not None:
         data = DataGenerator(config, training=False)
-        data.load_test_set(args.input_text)
-        tester = GestureRecognitionTester(sess, model, data, config, logger)
+        data.load_test_set([args.input_text])
+        tester = SentimentTester(sess, model, data, config, logger)
         predictions = tester.predict()
         print_predictions(predictions)
         return
 
-
-
     data = DataGenerator(config, training=True)
 
-    trainer = GestureRecognitionTrainer(sess, model, data, config, logger)
+    trainer = SentimentTrainer(sess, model, data, config, logger)
     trainer.train()
-    tester = GestureRecognitionTester(sess, model, data, config, logger)
+    tester = SentimentTester(sess, model, data, config, logger)
     tester.test()
 
 

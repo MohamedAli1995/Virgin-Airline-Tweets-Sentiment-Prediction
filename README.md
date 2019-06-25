@@ -1,6 +1,11 @@
 # VirginAirline-tweets-sentiment-prediction
-Sentiment analysis network that predicts the opinion ( positive, neutral and negative) about a given text.
- 
+Sentiment analysis network that predicts the opinion ( positive, neutral and negative) about a given text.<br>
+### Quick Example
+```
+1. input = "the flight was good" => output: positive
+2. input = "the flight was bad" => output: negative
+3. input = "hello world" => output: neutral
+```
 This project follows the **best practice tensorflow folder structure of** [Tensorflow Best Practice](https://github.com/MrGemy95/Tensorflow-Project-Template) 
 
 
@@ -14,6 +19,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [How to test](#Model-testing)
 -
 - [Implementation details](#Implementation-details)
+     - [Preprocessing](#Sentiment-model-preprocessing)
      - [Sentiment model architecture](#Sentiment-model-arch)
 
 # Project structure
@@ -129,7 +135,8 @@ To make predictions using text input:<br>
 python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
 ```
 # Implementation details
-
+## Sentiment model preprocessing
+talk about preprocessing
 ## Sentiment model arch
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
      alt="Image not loaded"
@@ -137,17 +144,21 @@ python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
 
 ## model training
  I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
- Acheived val accuracy of 80<br>
- and training accuracy of 50% (with enabling dropout)<br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
+ Acheived val accuracy of 88%, val_loss of 0.2872<br>
+ training accuracy of 90%, training_loss of 0.26895<br><br>
+
+model val_acc <br>
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_acc.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
+
 and loss <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_loss.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-   Acheived testing accuracy of 8
+   Model tested over 10% of unseen dataset, it achieved a test accuracy of 90%.
+
 
 
