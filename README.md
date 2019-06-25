@@ -138,8 +138,7 @@ python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
 talk about preprocessing
 ## Sentiment model arch
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
-     alt="Image not loaded"
-     style="float: left; margin-right: 10px;" />
+     alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
 ## model training
  I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
@@ -148,7 +147,7 @@ talk about preprocessing
  training accuracy of 90%, training_loss of 0.26895<br><br>
 
 model val_acc <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_acc.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
