@@ -16,7 +16,7 @@ This project structure follows the **best practice tensorflow folder structure o
 - [Dependencies](#install-dependencies)
 - [Config file](#config-file)
 - [How to train](#How-to-Train)
-- [How to predict](#Make predictions-with-pretrained-models)
+- [How to predict](#Make-predictions-with-pretrained-models)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
           - [Ineresting columns](#Interesting-columns)
