@@ -19,6 +19,16 @@ This project structure follows the **best practice tensorflow folder structure o
 - [How to predict](#Make predictions-with-pretrained-models)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
+          - [Ineresting columns](#Interesting-columns)
+          - [Lower case](#Lower-case)
+          - [Don't remove stop words](#Don't-remove-stop-words)
+          - [Removing symbols](#Removing-symbols)
+          - [Text2seq](#Tokenization)
+          - [Padding](#Padding)
+          - [Saving tokenizer](#Saving-tokenizer)
+          - [One hot encoding labels](#One-hot-encoding-labels)
+          - [Dataset Shuffling](#Shuffling-dataset)
+          - [Splitting train, val and test](#Splitting-dataset)
      - [Sentiment model architecture](#Sentiment-model-arch)
      - [Model training](#Model-Training)
 
@@ -113,7 +123,7 @@ In order to train, pretrain or test the model you need first to edit the config 
 ```
 
 # How to Train
-In order to train, pretrain or test the model you need first to edit the config file that is described at(#Config-File).<br>
+In order to train, pretrain or test the model you need first to edit the config file that is described at[config file](#config-file).<br>
 To train a Sentiment LSTM model:<br>
 set:<br>
 ```
@@ -138,8 +148,64 @@ python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
 # Implementation details
 ## Sentiment model preprocessing
 talk about preprocessing
+### Interesting columns
+After dataset exploration, we find out that we have only two columns that we are interested in, "text" and "airline_sentiment", the first is our input and the last is our target output <br>
+```
+df = pd.read_csv(path)
+# Select only text & airline_sentiment fields.
+df = df[["text", "airline_sentiment"]]
+```
+### Lower case
+First we convert the dataset to lowercase, since the context is case independent(unless you write UPPER CASE when you are angry, we will ignore this for now:D) <br>
+```
+df['text'] = df['text'].apply(lambda x: x.lower())
+```
+### Don't remove stop words
+Even if stop words is incredibly frequent, removin stop words can affect the context, we won't remove it <br>
+### Removing symbols
+As we are analyzing tweets, we have a lot of symbols to remove, more important, we should eliminate words starts with @, for example @mohamed_ali should be eliminated not only the symbol @<br>
+```
+# Remove any symbols except @.
+df['text'] = df['text'].apply((lambda x: re.sub('[^@a-zA-z\s]', '', x)))
+# Remove anyword having @ in it, as it is a tag operator.
+df['text'] = df['text'].apply(lambda x: re.sub('[\w]*[@+][\w]*[\s]*', '', x))
+```
+### Tokenization
+After preprocessing the text, we need to convert it to numbers in order to feed it to our embedding layer to convert it to a dense vector representation<br>
+```
+tokenizer = Tokenizer(num_words=max_features, split=' ')
+tokenizer.fit_on_texts(text_tuples)
+sequences = tokenizer.texts_to_sequences(text_tuples)
+```
+### Padding
+Then we pad our sequences with zeros to the max length, a drawback here is that our model doesn't accept dynamic sequence length, we will figure out how to solve such a problem later<br>
+```
+x = pad_sequences(x, maxlen=30)
+```
+### Saving tokenizer
+Finally we save our tokenizer as a pickle file, in order to use it when testing input, as we will not have our dataset then<br>
+```
+pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+```
+### One hot encoding labels
+We one-hot encode our labels{positive, neutral, negative} to a sparse vector representation<br>
+positive => [1, 0, 0]<br>
+neutral =>[0, 1, 0] <br>
+negative => [0, 0, 1]<br>
+
+### Shuffling dataset
+After we have preprocessed our dataset, we first shuffle our dataset once before splitting, thenwe shuffle our training set every epoch in order to decrease overfitting and increase learning curve <br>
+```
+indices_list = [i for i in range(self.x_all_data.shape[0])]
+shuffle(indices_list)
+self.x_all_data = self.x_all_data[indices_list]
+self.y_all_data = self.y_all_data[indices_list]
+```
+### Splitting dataset
+We split dataset into training, validation and test sets with ratio (8:1:1)<br>
+          
 ## Sentiment model arch
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/gesture_recognition_model_arch.png"  height="50%"
      alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
 ## Model Training
@@ -159,5 +225,5 @@ and loss <br>
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-   Acheived testing accuracy of 99% on 10% of the dataset (unseen in training process).<br>
+   Acheived testing accuracy of 88% on 10% of the dataset (unseen in training process).<br>
    with test loss of 0.267
