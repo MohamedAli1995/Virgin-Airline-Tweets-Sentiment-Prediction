@@ -21,7 +21,7 @@ This project structure follows the **best practice tensorflow folder structure o
      - [Preprocessing](#Sentiment-model-preprocessing)
           - [Interesting columns](#Interesting-columns)
           - [Lower case](#Lower-case)
-          - [Don't remove stop words](#Don't-remove-stop-words)
+          - [Don't remove stop words](#Don\'t-remove-stop-words)
           - [Removing symbols](#Removing-symbols)
           - [Text2seq](#Tokenization)
           - [Padding](#Padding)
