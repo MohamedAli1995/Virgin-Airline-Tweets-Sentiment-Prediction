@@ -21,7 +21,7 @@ This project structure follows the **best practice tensorflow folder structure o
      - [Preprocessing](#Sentiment-model-preprocessing)
           - [Interesting columns](#Interesting-columns)
           - [Lower case](#Lower-case)
-          - [Don't remove stop words](#Don\'t-remove-stop-words)
+          - [Don't remove stop words](#Do-not-remove-stop-words)
           - [Removing symbols](#Removing-symbols)
           - [Text2seq](#Tokenization)
           - [Padding](#Padding)
@@ -160,7 +160,7 @@ First we convert the dataset to lowercase, since the context is case independent
 ```
 df['text'] = df['text'].apply(lambda x: x.lower())
 ```
-### Don't remove stop words
+### Do not remove stop words
 Even if stop words are incredibly frequent, removin stop words can affect the context, we won't remove it <br>
 ### Removing symbols
 As we are analyzing tweets, we have a lot of symbols to remove, more important, we should eliminate words starts with @, for example @mohamed_ali should be eliminated not only the symbol @<br>
