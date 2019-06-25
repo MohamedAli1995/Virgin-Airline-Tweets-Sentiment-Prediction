@@ -1,4 +1,4 @@
-# VirginAirline-tweets-sentiment-prediction
+# Virgin-Airline-tweets-sentiment-prediction
 Sentiment analysis network that predicts the opinion ( positive, neutral and negative) about a given text.<br>
 ### Quick Example
 ```
@@ -6,7 +6,7 @@ Sentiment analysis network that predicts the opinion ( positive, neutral and neg
 2. input = "the flight was bad" => output: negative
 3. input = "hello world" => output: neutral
 ```
-This project follows the **best practice tensorflow folder structure of** [Tensorflow Best Practice](https://github.com/MrGemy95/Tensorflow-Project-Template) 
+This project structure follows the **best practice tensorflow folder structure of** [Tensorflow Best Practice](https://github.com/MrGemy95/Tensorflow-Project-Template) 
 
 
 # Table of contents
@@ -16,7 +16,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Dependencies](#install-dependencies)
 - [Config file](#config-file)
 - [How to train](#How-to-Train)
-- [How to test](#Model-testing)
+- [How to predict](#Make predictions-with-pretrained-models)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
      - [Sentiment model architecture](#Sentiment-model-arch)
@@ -35,7 +35,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 │   ├── base_train.py   - This file contains the abstract class of the trainer of all models used.
 │   └── base_test.py    - This file contains the abstract class of the testers of all models used.
 │
-├── models              - This folder contains 2 models implemented for cifar-100.
+├── models              - This folder contains 1 model for sentiment analysis.
 │   └── sentiment_model.py  - Contains the architecture of the Sentiment(LSTM) model used
 │
 │
@@ -44,7 +44,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 │ 
 |
 ├── testers             - This folder contains testers used which inherit from BaseTest.
-│   └── sentiment_tester.py - Contains the tester class of the TinyVGG model.
+│   └── sentiment_tester.py - Contains the tester class of the Sentiment model model.
 │ 
 | 
 ├──  mains 
@@ -121,8 +121,8 @@ set:<br>
 "learning_rate":0.0001,
 "batch_size":256,
 
+"tokenizer_pickle_path":"", - Path to tokenizer pickle file saved, it is used for text_to_sequence
 "train_data_path": set it to path of the training data e.g: "/content/train"
-"meta_data_path": path to metadata of the training set, e.g: "/content/cifar-100-python/meta"
 "checkpoint_dir": path to store checkpoints, e.g: "/content/saved_models/tiny_vgg_model/checkpoint/"
 "summary_dir": path to store the model summaries for tensorboard, e.g: "/content/saved_models/tiny_vgg_model/summary/"
 ```
