@@ -15,11 +15,13 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Download pretrained models](#Download-pretrained-models)
 - [Dependencies](#install-dependencies)
 - [Config file](#config-file)
-- [How to train](#Model-training)
+- [How to train](#How-to-Train)
 - [How to test](#Model-testing)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
      - [Sentiment model architecture](#Sentiment-model-arch)
+     - [Sentiment model architecture](#Model-Training)
+
 
 # Project structure
 --------------
@@ -110,7 +112,7 @@ In order to train, pretrain or test the model you need first to edit the config 
 }
 ```
 
-# Model training
+# How to Train
 In order to train, pretrain or test the model you need first to edit the config file that is described at(#Config-File).<br>
 To train a Sentiment LSTM model:<br>
 set:<br>
@@ -140,20 +142,19 @@ talk about preprocessing
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
      alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
-## model training
+## Model Training
  I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
-
  Acheived val accuracy of 88%, val_loss of 0.2872<br>
  training accuracy of 90%, training_loss of 0.26895<br><br>
 
 model val_acc <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
 
 and loss <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_loss.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_loss.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
      
