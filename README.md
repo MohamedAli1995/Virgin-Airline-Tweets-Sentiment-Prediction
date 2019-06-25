@@ -19,7 +19,7 @@ This project structure follows the **best practice tensorflow folder structure o
 - [How to predict](#Make-predictions-with-pretrained-models)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
-          - [Ineresting columns](#Interesting-columns)
+          - [Interesting columns](#Interesting-columns)
           - [Lower case](#Lower-case)
           - [Don't remove stop words](#Don't-remove-stop-words)
           - [Removing symbols](#Removing-symbols)
