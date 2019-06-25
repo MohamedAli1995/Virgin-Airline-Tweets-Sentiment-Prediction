@@ -1,4 +1,4 @@
-# VirginAirline-tweets-sentiment-prediction
+# Virgin-Airline-tweets-sentiment-prediction
 Sentiment analysis network that predicts the opinion ( positive, neutral and negative) about a given text.<br>
 ### Quick Example
 ```
@@ -6,7 +6,7 @@ Sentiment analysis network that predicts the opinion ( positive, neutral and neg
 2. input = "the flight was bad" => output: negative
 3. input = "hello world" => output: neutral
 ```
-This project follows the **best practice tensorflow folder structure of** [Tensorflow Best Practice](https://github.com/MrGemy95/Tensorflow-Project-Template) 
+This project structure follows the **best practice tensorflow folder structure of** [Tensorflow Best Practice](https://github.com/MrGemy95/Tensorflow-Project-Template) 
 
 
 # Table of contents
@@ -15,11 +15,23 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Download pretrained models](#Download-pretrained-models)
 - [Dependencies](#install-dependencies)
 - [Config file](#config-file)
-- [How to train](#Model-training)
-- [How to test](#Model-testing)
+- [How to train](#How-to-Train)
+- [How to predict](#Make-predictions-with-pretrained-models)
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
+          - [Interesting columns](#Interesting-columns)
+          - [Lower case](#Lower-case)
+          - [Don't remove stop words](#Do-not-remove-stop-words)
+          - [Removing symbols](#Removing-symbols)
+          - [Text2seq](#Tokenization)
+          - [Padding](#Padding)
+          - [Saving tokenizer](#Saving-tokenizer)
+          - [One hot encoding labels](#One-hot-encoding-labels)
+          - [Dataset Shuffling](#Shuffling-dataset)
+          - [Splitting train, val and test](#Splitting-dataset)
      - [Sentiment model architecture](#Sentiment-model-arch)
+     - [Model training](#Model-Training)
+
 
 # Project structure
 --------------
@@ -33,7 +45,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 │   ├── base_train.py   - This file contains the abstract class of the trainer of all models used.
 │   └── base_test.py    - This file contains the abstract class of the testers of all models used.
 │
-├── models              - This folder contains 2 models implemented for cifar-100.
+├── models              - This folder contains 1 model for sentiment analysis.
 │   └── sentiment_model.py  - Contains the architecture of the Sentiment(LSTM) model used
 │
 │
@@ -42,7 +54,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 │ 
 |
 ├── testers             - This folder contains testers used which inherit from BaseTest.
-│   └── sentiment_tester.py - Contains the tester class of the TinyVGG model.
+│   └── sentiment_tester.py - Contains the tester class of the Sentiment model model.
 │ 
 | 
 ├──  mains 
@@ -110,8 +122,8 @@ In order to train, pretrain or test the model you need first to edit the config 
 }
 ```
 
-# Model training
-In order to train, pretrain or test the model you need first to edit the config file that is described at(#Config-File).<br>
+# How to Train
+In order to train, pretrain or test the model you need first to edit the config file that is described at[config file](#config-file).<br>
 To train a Sentiment LSTM model:<br>
 set:<br>
 ```
@@ -119,8 +131,8 @@ set:<br>
 "learning_rate":0.0001,
 "batch_size":256,
 
+"tokenizer_pickle_path":"", - Path to tokenizer pickle file saved, it is used for text_to_sequence
 "train_data_path": set it to path of the training data e.g: "/content/train"
-"meta_data_path": path to metadata of the training set, e.g: "/content/cifar-100-python/meta"
 "checkpoint_dir": path to store checkpoints, e.g: "/content/saved_models/tiny_vgg_model/checkpoint/"
 "summary_dir": path to store the model summaries for tensorboard, e.g: "/content/saved_models/tiny_vgg_model/summary/"
 ```
@@ -136,35 +148,80 @@ python3.6 -m src.mains.main --config path_to_config_file -i "text to analyze"
 # Implementation details
 ## Sentiment model preprocessing
 talk about preprocessing
+### Interesting columns
+After dataset exploration, we find out that we have only two columns that we are interested in, "text" and "airline_sentiment", the first is our input and the last is our target output <br>
+```
+df = pd.read_csv(path)
+# Select only text & airline_sentiment fields.
+df = df[["text", "airline_sentiment"]]
+```
+### Lower case
+First we convert the dataset to lowercase, since the context is case independent(unless you write UPPER CASE when you are angry, we will ignore this for now:D) <br>
+```
+df['text'] = df['text'].apply(lambda x: x.lower())
+```
+### Do not remove stop words
+Even if stop words are incredibly frequent, removing stop words can affect the context, we won't remove it <br>
+### Removing symbols
+As we are analyzing tweets, we have a lot of symbols to remove, more important, we should eliminate words starts with @, for example @mohamed_ali should be eliminated not only the symbol @<br>
+```
+# Remove any symbols except @.
+df['text'] = df['text'].apply((lambda x: re.sub('[^@a-zA-z\s]', '', x)))
+# Remove anyword having @ in it, as it is a tag operator.
+df['text'] = df['text'].apply(lambda x: re.sub('[\w]*[@+][\w]*[\s]*', '', x))
+```
+### Tokenization
+After preprocessing the text, we need to convert it to numbers in order to feed it to our embedding layer to convert it to a dense vector representation<br>
+```
+tokenizer = Tokenizer(num_words=max_features, split=' ')
+tokenizer.fit_on_texts(text_tuples)
+sequences = tokenizer.texts_to_sequences(text_tuples)
+```
+### Padding
+Then we pad our sequences with zeros to the max length, a drawback here is that our model doesn't accept dynamic sequence length, we will figure out how to solve such a problem later<br>
+```
+x = pad_sequences(x, maxlen=30)
+```
+### Saving tokenizer
+Finally we save our tokenizer as a pickle file, in order to use it when testing input, as we will not have our dataset then<br>
+```
+pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+```
+### One hot encoding labels
+We one-hot encode our labels{positive, neutral, negative} to a sparse vector representation<br>
+positive => [1, 0, 0]<br>
+neutral =>[0, 1, 0] <br>
+negative => [0, 0, 1]<br>
+
+### Shuffling dataset
+After we have preprocessed our dataset, we first shuffle our dataset once before splitting, thenwe shuffle our training set every epoch in order to decrease overfitting and increase learning curve <br>
+```
+indices_list = [i for i in range(self.x_all_data.shape[0])]
+shuffle(indices_list)
+self.x_all_data = self.x_all_data[indices_list]
+self.y_all_data = self.y_all_data[indices_list]
+```
+### Splitting dataset
+We split dataset into training, validation and test sets with ratio (8:1:1)<br>
+          
 ## Sentiment model arch
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/model_diagram.png"
-     alt="Image not loaded"
-     style="float: left; margin-right: 10px;" />
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/gesture_recognition_model_arch.png"  height="50%"
+     alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
-## model training
+## Model Training
  I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
-
  Acheived val accuracy of 88%, val_loss of 0.2872<br>
  training accuracy of 90%, training_loss of 0.26895<br><br>
 
 model val_acc <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_acc.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
-     alt="Image not loaded"
-     style="float: left; margin-right: 10px;" />
 
 and loss <br>
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/diagrams/val_loss.png"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_loss.png"
      alt="Image not loaded"
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-<<<<<<< HEAD
-   Model tested over 10% of unseen dataset, it achieved a test accuracy of 90%.
-
-=======
-   Acheived testing accuracy of 99% on 10% of the dataset (unseen in training process).<br>
+   Acheived testing accuracy of 88% on 10% of the dataset (unseen in training process).<br>
    with test loss of 0.267
->>>>>>> cd10807bd307ff1565dcced00c067ff268047be2
-
-
