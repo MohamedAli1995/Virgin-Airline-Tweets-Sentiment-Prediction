@@ -159,12 +159,5 @@ and loss <br>
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-<<<<<<< HEAD
-   Model tested over 10% of unseen dataset, it achieved a test accuracy of 90%.
-
-=======
    Acheived testing accuracy of 99% on 10% of the dataset (unseen in training process).<br>
    with test loss of 0.267
->>>>>>> cd10807bd307ff1565dcced00c067ff268047be2
-
-
