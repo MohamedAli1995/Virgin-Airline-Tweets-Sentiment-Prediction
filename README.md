@@ -216,8 +216,6 @@ We split dataset into training, validation and test sets with ratio (8:1:1)<br>
 model val_acc <br>
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
-     alt="Image not loaded"
-     style="float: left; margin-right: 10px;" />
 
 and loss <br>
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_loss.png"
