@@ -205,7 +205,7 @@ self.y_all_data = self.y_all_data[indices_list]
 We split dataset into training, validation and test sets with ratio (8:1:1)<br>
           
 ## Sentiment model arch
-<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/gesture_recognition_model_arch.png"  height="50%"
+<img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/sentiment_analysis_model_arch.png"  height="50%"
      alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
 ## Model Training
