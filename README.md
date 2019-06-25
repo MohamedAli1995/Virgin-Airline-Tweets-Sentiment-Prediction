@@ -20,7 +20,7 @@ This project follows the **best practice tensorflow folder structure of** [Tenso
 - [Implementation details](#Implementation-details)
      - [Preprocessing](#Sentiment-model-preprocessing)
      - [Sentiment model architecture](#Sentiment-model-arch)
-     - [Sentiment model architecture](#Model-Training)
+     - [Model training](#Model-Training)
 
 
 # Project structure
