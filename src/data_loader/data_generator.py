@@ -1,7 +1,7 @@
 import numpy as np
 from src.utils.utils import unpickle
 from src.data_loader.preprocessing import preprocess_text, text_to_seq, one_hot_encoding
-from random import shuffle
+import random
 from glob import glob
 import pandas as pd
 
@@ -44,6 +44,7 @@ class DataGenerator:
 
         if self.training:
             np.random.seed(self.data_split_seed)
+            random.seed(self.data_split_seed)
             self.__load_train_val_test(train_ratio=0.8, val_ratio=0.1)
 
     def __load_train_val_test(self, train_ratio=0.8, val_ratio=0.1):
@@ -63,7 +64,7 @@ class DataGenerator:
         self.y_all_data = one_hot_encoding(processed_df['airline_sentiment'].values, 3, dict=self.config.labels_dict)
 
         indices_list = [i for i in range(self.x_all_data.shape[0])]
-        shuffle(indices_list)
+        random.shuffle(indices_list)
         self.x_all_data = self.x_all_data[indices_list]
         self.y_all_data = self.y_all_data[indices_list]
 
@@ -92,13 +93,13 @@ class DataGenerator:
         Returns:
         """
         indices_list = [i for i in range(self.x_train.shape[0])]
-        shuffle(indices_list)
+        random.shuffle(indices_list)
         # Next two lines may cause memory error if no sufficient ram.
         self.x_train = self.x_train[indices_list]
         self.y_train = self.y_train[indices_list]
 
         indices_list = [i for i in range(self.x_val.shape[0])]
-        shuffle(indices_list)
+        random.shuffle(indices_list)
         # Next two lines may cause memory error if no sufficient ram.
         self.x_val = self.x_val[indices_list]
         self.y_val = self.y_val[indices_list]

@@ -1,10 +1,10 @@
 {
-  "num_epochs": 180,
+  "num_epochs": 100,
   "learning_rate": 0.001,
-  "batch_size": 1024,
+  "batch_size": 256,
   "val_per_epoch": 1,
 
-  "max_n_words":3000,
+  "max_n_words":5000,
   "max_to_keep":1,
   "labels_dict":{"positive":0, "neutral":1, "negative":2},
   "tokenizer_pickle_path":"/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/saved_models/tokenizer/",

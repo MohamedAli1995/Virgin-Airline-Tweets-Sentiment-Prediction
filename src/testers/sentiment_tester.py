@@ -32,9 +32,10 @@ class SentimentTester(BaseTest):
 
     def predict_step(self):
         batch_x = self.data.next_batch(batch_type="unlabeled_test")
-        feed_dict = {self.model.x: batch_x,self.model.is_training: False,
+        feed_dict = {self.model.x: batch_x, self.model.is_training: False,
                      self.model.seq_len: batch_x.shape[1],
-                     self.model.keep_prob_lstm: 1.0, self.model.keep_prob_fc: 1.0}
+                     self.model.keep_prob_lstm_out: 1.0,
+                     self.model.keep_prob_lstm_recurrent: 1.0, self.model.keep_prob_fc: 1.0}
 
         prediction = self.sess.run([self.model.predictions],
                                    feed_dict=feed_dict)
@@ -46,7 +47,9 @@ class SentimentTester(BaseTest):
 
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: False,
                      self.model.seq_len: batch_x.shape[1],
-                     self.model.keep_prob_lstm: 1.0, self.model.keep_prob_fc: 1.0}
+                     self.model.keep_prob_lstm_out: 1.0,
+                     self.model.keep_prob_lstm_recurrent: 1.0,
+                     self.model.keep_prob_fc: 1.0}
 
         loss, acc = self.sess.run([self.model.cross_entropy, self.model.accuracy],
                                   feed_dict=feed_dict)

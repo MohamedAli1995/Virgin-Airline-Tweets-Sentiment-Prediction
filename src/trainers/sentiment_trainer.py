@@ -34,7 +34,8 @@ class SentimentTrainer(BaseTrain):
     def train_step(self):
         batch_x, batch_y = self.data.next_batch(batch_type="train")
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: True,
-                      self.model.seq_len: batch_x.shape[1], self.model.keep_prob_lstm: 0.3, self.model.keep_prob_fc: 0.5}
+                     self.model.seq_len: batch_x.shape[1], self.model.keep_prob_lstm_out: 0.2,
+                     self.model.keep_prob_lstm_recurrent: 0.2, self.model.keep_prob_fc: 0.5}
 
         # Run training for step first with dropout then calculate loss and acc without dropout.
         self.sess.run([self.model.train_step, self.model.cross_entropy, self.model.accuracy],
@@ -42,7 +43,8 @@ class SentimentTrainer(BaseTrain):
         # Run without dropout
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: False,
                      self.model.seq_len: batch_x.shape[1],
-                     self.model.keep_prob_lstm: 1.0, self.model.keep_prob_fc: 1.0}
+                     self.model.keep_prob_lstm_out: 1.0,
+                     self.model.keep_prob_lstm_recurrent: 1.0, self.model.keep_prob_fc: 1.0}
         loss, acc = self.sess.run([self.model.cross_entropy, self.model.accuracy],
                                   feed_dict=feed_dict)
         return loss, acc
@@ -71,7 +73,8 @@ class SentimentTrainer(BaseTrain):
         batch_x, batch_y = self.data.next_batch(batch_type="val")
         feed_dict = {self.model.x: batch_x, self.model.y: batch_y, self.model.is_training: False,
                      self.model.seq_len: batch_x.shape[1],
-                     self.model.keep_prob_lstm: 1.0, self.model.keep_prob_fc: 1.0}
+                     self.model.keep_prob_lstm_out: 1.0,
+                     self.model.keep_prob_lstm_recurrent: 1.0, self.model.keep_prob_fc: 1.0}
 
         loss, acc = self.sess.run([self.model.cross_entropy, self.model.accuracy],
                                   feed_dict=feed_dict)

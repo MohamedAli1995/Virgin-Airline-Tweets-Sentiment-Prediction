@@ -28,17 +28,18 @@ class SentimentModel(BaseModel):
             embedded_words = tf.nn.embedding_lookup(embedding, x)
             return embedded_words
 
-    def __lstm_dropout_cell(self, hidden_size, keep_prob):
+    def __lstm_dropout_cell(self, hidden_size, keep_prob_out, keep_prob_recurrent):
         lstm_cell = tf.nn.rnn_cell.LSTMCell(hidden_size, state_is_tuple=True)
-        dropout_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, input_keep_prob=keep_prob,
-                                                     output_keep_prob=keep_prob)
+        dropout_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, input_keep_prob=keep_prob_out,
+                                                     output_keep_prob=keep_prob_out,
+                                                     state_keep_prob=keep_prob_recurrent)
         return dropout_cell
 
-    def __rnn(self, hidden_size, x, seq_len, keep_prob):
+    def __rnn(self, hidden_size, x, seq_len, keep_prob_out, keep_prob_recurrent):
         with tf.variable_scope(None, default_name='LSTM_layer'):
-            lstm_cell = self.__lstm_dropout_cell(hidden_size, keep_prob)
+            lstm_cell = self.__lstm_dropout_cell(hidden_size, keep_prob_out, keep_prob_recurrent)
             outputs, last_state = tf.nn.dynamic_rnn(lstm_cell, x, dtype=tf.float32, sequence_length=seq_len)
-            return outputs[:, -1, :]
+            return outputs
 
     def __init_weights(self, shape):
         initializer = tf.contrib.layers.xavier_initializer()
@@ -61,7 +62,8 @@ class SentimentModel(BaseModel):
     def build_model(self):
         self.is_training = tf.placeholder(tf.bool)
         self.seq_len = tf.placeholder(tf.int32, name='sequence_length')
-        self.keep_prob_lstm = tf.placeholder(tf.float32, name='keep_prob_lstm')
+        self.keep_prob_lstm_out = tf.placeholder(tf.float32, name='keep_prob_lstm_out')
+        self.keep_prob_lstm_recurrent = tf.placeholder(tf.float32, name='keep_prob_lstm_recurrent')
         self.keep_prob_fc = tf.placeholder(tf.float32, name='keep_prob_fc')
 
         with tf.name_scope('input'):
@@ -70,17 +72,14 @@ class SentimentModel(BaseModel):
         with tf.name_scope('target'):
             self.y = tf.placeholder(tf.int32, [None, None], name='target')
 
-        embedded_words = self.__word_embedding(self.x, self.n_words, 128)
+        embedded_words = self.__word_embedding(self.x, self.n_words, 100)
 
-        lstm_1_out = self.__rnn(256, embedded_words, self.seq_len, self.keep_prob_lstm)
-        batch_norm_1 = self.__batch_norm(lstm_1_out)
-        dropout_2 = tf.nn.dropout(batch_norm_1, self.keep_prob_fc)
+        lstm_out = self.__rnn(100, embedded_words, self.seq_len, self.keep_prob_lstm_out, self.keep_prob_lstm_recurrent)
+        # dropout_2 = tf.nn.dropout(lstm_1_out, self.keep_prob_fc)
 
-        full_layer_1 = self.__normal_full_layer(dropout_2, 128)
-        batch_norm_2 = self.__batch_norm(full_layer_1)
-        dropout_3 = tf.nn.dropout(batch_norm_2, self.keep_prob_fc)
 
-        self.y_pred = self.__normal_full_layer(dropout_3, 3)
+
+        self.y_pred = self.__normal_full_layer(lstm_out[:, -1, :], 3)
 
         with tf.name_scope("loss"):
             self.cross_entropy = tf.reduce_mean(

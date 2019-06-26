@@ -14,10 +14,10 @@ def main():
     args = None
     config = None
     try:
-        args = get_args()
-        config = processing_config(args.config)
-        # config = processing_config(
-        #     "/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/configs/config_model.json")
+        # args = get_args()
+        # config = processing_config(args.config)
+        config = processing_config(
+            "/media/syrix/programms/projects/Virgin-Airline-Tweets-Sentiment-Prediction/configs/config_model.json")
     except:
         print("Missing or invalid arguments")
         exit(0)
@@ -27,13 +27,13 @@ def main():
     model = SentimentModel(config)
     model.load(sess)
 
-    if args.input_text is not None:
-        data = DataGenerator(config, training=False)
-        data.load_test_set([args.input_text])
-        tester = SentimentTester(sess, model, data, config, logger)
-        predictions = tester.predict()
-        print_predictions(predictions)
-        return
+    # if args.input_text is not None:
+    #     data = DataGenerator(config, training=False)
+    #     data.load_test_set([args.input_text])
+    #     tester = SentimentTester(sess, model, data, config, logger)
+    #     predictions = tester.predict()
+    #     print_predictions(predictions)
+    #     return
 
     data = DataGenerator(config, training=True)
 
