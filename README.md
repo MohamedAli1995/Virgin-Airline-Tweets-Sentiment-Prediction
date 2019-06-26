@@ -209,9 +209,10 @@ We split dataset into training, validation and test sets with ratio (8:1:1)<br>
      alt="Image not loaded" style="float: left; margin-right: 10px;" />
 
 ## Model Training
- I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 200 epoch<br>
- Acheived val accuracy of 88%, val_loss of 0.2872<br>
- training accuracy of 90%, training_loss of 0.26895<br><br>
+ I trained the Sentiment  model by splitting training_data into train/val/test with ratios 8:1:1 for 100 epoch<br>
+ Acheived val accuracy of 80%, val_loss of 0.56672<br>
+ training accuracy of 87%, training_loss of 0.31895<br><br>
+ It is clear that the model overfits, but decreasing the model size and complexity won't help much, as the dataset size is small and biased<br>
 
 model val_acc <br>
 <img src="https://github.com/MohamedAli1995/Virgin-Airline-Tweets-Sentiment-Prediction/blob/master/saved_models/diagrams/val_acc.png" alt="Image not loaded" style="float: left; margin-right: 10px;" />
@@ -223,5 +224,5 @@ and loss <br>
      style="float: left; margin-right: 10px;" />
      
 ## model testing
-   Acheived testing accuracy of 88% on 10% of the dataset (unseen in training process).<br>
-   with test loss of 0.267
+   Acheived testing accuracy of 80% on 10% of the dataset (unseen in training process).<br>
+   with test loss of 0.567
